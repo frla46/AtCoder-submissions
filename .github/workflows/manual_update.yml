@@ -1,7 +1,7 @@
 name: Manual Update
 on: [ workflow_dispatch ]
 permissions: 
-  contents: write-all
+  contents: write
 
 jobs:
   build:
