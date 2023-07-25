@@ -1,0 +1,11 @@
+x1, y1, x2, y2 = [int(i) for i in input().split()]
+dx = x2 - x1
+dy = y2 - y1
+x3 = x2 - dy
+y3 = y2 + dx
+print(x3, y3, end=' ')
+dx = x3 - x2
+dy = y3 - y2
+x4 = x3 - dy
+y4 = y3 + dx
+print(x4, y4, end=' ')
