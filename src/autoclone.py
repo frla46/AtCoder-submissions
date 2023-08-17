@@ -40,7 +40,7 @@ EXTENSIONS = {
     "Perl6": "p6",
     "Kotlin": "kt",
     "COBOL": "cob",
-    "C": ".c",
+    "C": "c",
 }
 
 
@@ -135,9 +135,15 @@ class AutoClone(object):
         submission_url = (
             f"https://atcoder.jp/contests/{contest_id}/submissions/{submission_id}"
         )
-        return BeautifulSoup(
-            requests.get(submission_url).content, "html.parser"
-        ).pre.string
+        response = requests.get(submission_url)
+        html = response.text
+        soup = BeautifulSoup(html, 'html.parser')
+        div = soup.find('div', {'id': 'submission-source-code-language-id'})
+        if div is not None:
+            data_source_code = div['data-source-code']
+            return data_source_code
+        else:
+            raise Exception('div element not found')
 
     @staticmethod
     def write_code(code, contest_id, problem_id, language) -> None:
