@@ -139,11 +139,15 @@ class AutoClone(object):
         html = response.text
         soup = BeautifulSoup(html, 'html.parser')
         div = soup.find('div', {'id': 'submission-source-code-language-id'})
-        if div is not None:
-            data_source_code = div['data-source-code']
-            return data_source_code
+        data_source_code = BeautifulSoup(requests.get(submission_url).content, "html.parser").pre
+        if data_source_code is not None:
+            return str(data_source_code.string)
         else:
-            raise Exception('div element not found')
+            if div is not None:
+                data_source_code = div['data-source-code']
+                return data_source_code[0]
+            else:
+                raise Exception('code not found')
 
     @staticmethod
     def write_code(code, contest_id, problem_id, language) -> None:
